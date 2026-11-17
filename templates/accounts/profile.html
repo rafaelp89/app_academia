@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Meu Perfil Físico e Diretrizes{% endblock %}
+
+{% block content %}
+<div class="hero-card">
+    <span class="hero-tag">Parâmetros Biomecânicos</span>
+    <h1 class="hero-title">Perfil do Praticante</h1>
+    <p class="hero-subtitle">Diretrizes físicas e restrições técnicas que fundamentam a periodização anual.</p>
+</div>
+
+<div class="card">
+    <h2 class="section-title">Dados Biométricos & Características</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-top: 10px;">
+        <div class="metric-item" style="background: #0d1424; padding: 12px; border-radius: var(--radius-sm);">
+            <span class="metric-label">Idade</span>
+            <span class="metric-val">{{ profile.age }} anos</span>
+        </div>
+        <div class="metric-item" style="background: #0d1424; padding: 12px; border-radius: var(--radius-sm);">
+            <span class="metric-label">Altura</span>
+            <span class="metric-val">{{ profile.height_m }} m</span>
+        </div>
+        <div class="metric-item" style="background: #0d1424; padding: 12px; border-radius: var(--radius-sm);">
+            <span class="metric-label">Peso Atual Informado</span>
+            <span class="metric-val highlight-load">{{ profile.current_weight_kg }} kg</span>
+        </div>
+        <div class="metric-item" style="background: #0d1424; padding: 12px; border-radius: var(--radius-sm);">
+            <span class="metric-label">Biotipo</span>
+            <span class="metric-val">{{ profile.biotype }}</span>
+        </div>
+        <div class="metric-item" style="background: #0d1424; padding: 12px; border-radius: var(--radius-sm);">
+            <span class="metric-label">Experiência</span>
+            <span class="metric-val" style="font-size: 13px;">{{ profile.experience_level }}</span>
+        </div>
+        <div class="metric-item" style="background: #0d1424; padding: 12px; border-radius: var(--radius-sm);">
+            <span class="metric-label">Frequência Semanal</span>
+            <span class="metric-val">{{ profile.training_frequency_per_week }} dias (Seg/Qua/Sex)</span>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2 class="section-title">Objetivos & Rotina</h2>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div>
+            <strong style="color: #38bdf8; font-size: 13px; display: block;">Objetivo Principal:</strong>
+            <p style="color: var(--text-primary); font-size: 14px;">{{ profile.main_goal }}</p>
+        </div>
+        <div>
+            <strong style="color: #38bdf8; font-size: 13px; display: block;">Objetivo Complementar:</strong>
+            <p style="color: var(--text-primary); font-size: 14px;">{{ profile.secondary_goal }}</p>
+        </div>
+        <div>
+            <strong style="color: #38bdf8; font-size: 13px; display: block;">Academia:</strong>
+            <p style="color: var(--text-primary); font-size: 14px;">{{ profile.gym_type }}</p>
+        </div>
+        <div>
+            <strong style="color: #38bdf8; font-size: 13px; display: block;">Suplementação & Hidratação:</strong>
+            <p style="color: var(--text-primary); font-size: 14px;">{{ profile.supplementation }} | {{ profile.hydration }}</p>
+        </div>
+        <div>
+            <strong style="color: #38bdf8; font-size: 13px; display: block;">Alimentação:</strong>
+            <p style="color: var(--text-primary); font-size: 14px;">{{ profile.diet_guidance }}</p>
+        </div>
+    </div>
+
+    <div class="safety-disclaimer">
+        <strong>Nota Científica e Pedagógica:</strong> As faixas de carga sugeridas pelo sistema são recomendações iniciais conservadoras estimadas para guiar o treino em máquinas convencionais. Conforme diretriz obrigatória, o peso corporal e o biotipo não são tomados como medidas absolutas de força individual. Ajuste sempre a carga para baixo caso haja comprometimento da técnica de execução.
+    </div>
+</div>
+{% endblock %}
+

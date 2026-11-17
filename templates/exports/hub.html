@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Central de Exportação & Backup{% endblock %}
+
+{% block content %}
+<div class="hero-card">
+    <span class="hero-tag">Persistência & Portabilidade</span>
+    <h1 class="hero-title">Exportação & Backup de Dados</h1>
+    <p class="hero-subtitle">
+        Exporte seus dados em CSV com suporte nativo ao Excel ou gere um backup completo em JSON para restauração.
+    </p>
+</div>
+
+<!-- Módulo 1: Exportação CSV -->
+<div class="card">
+    <div style="display: flex; gap: 14px; align-items: flex-start;">
+        <span style="font-size: 32px;">📊</span>
+        <div style="flex: 1;">
+            <h2 style="font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 4px;">
+                Exportação de Relatório em CSV (Excel)
+            </h2>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+                Arquivo formatado em <strong>UTF-8 com BOM</strong> com separador ponto e vírgula (;), cabeçalhos em português e compatibilidade imediata com Microsoft Excel, LibreOffice Calc e Google Planilhas. Contém todo o histórico de sessões, prescrições de carga e status dos checkboxes.
+            </p>
+            <a href="{% url 'exports:export_csv' %}" class="btn btn-primary" style="font-size: 13px;">
+                Baixar Histórico Completo em CSV (.csv)
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Módulo 2: Backup Completo em JSON -->
+<div class="card">
+    <div style="display: flex; gap: 14px; align-items: flex-start;">
+        <span style="font-size: 32px;">📦</span>
+        <div style="flex: 1;">
+            <h2 style="font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 4px;">
+                Backup Integral em Formato JSON
+            </h2>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+                Serialização estruturada contendo perfil, macrociclo de 12 meses, as 5 fases, sessões de treino, checklists marcados e histórico de justificativas do sistema.
+            </p>
+            <a href="{% url 'exports:export_json' %}" class="btn btn-secondary" style="font-size: 13px;">
+                Exportar Backup em JSON (.json)
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Módulo 3: Restauração a Partir de JSON -->
+<div class="card" style="border: 1px dashed #334155; background: #0f172a;">
+    <div style="display: flex; gap: 14px; align-items: flex-start;">
+        <span style="font-size: 32px;">🔄</span>
+        <div style="flex: 1;">
+            <h2 style="font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 4px;">
+                Restauração de Dados a Partir de Backup JSON
+            </h2>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+                Selecione um arquivo de backup JSON previamente exportado. O sistema realizará validação de schema e restauração com confirmação prévia para garantir a integridade dos seus dados.
+            </p>
+
+            <form method="post" action="{% url 'exports:restore_json' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <input type="file" name="backup_file" accept=".json" class="form-input" required style="padding: 8px;">
+                </div>
+
+                <button type="submit" class="btn btn-secondary" style="font-size: 13px;" onclick="return confirm('Atenção: A restauração substituirá o planejamento ativo atual pelos dados do arquivo enviado. Deseja prosseguir com a restauração?');">
+                    Restaurar Planejamento via JSON
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

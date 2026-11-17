@@ -1,0 +1,32 @@
+<header class="app-header">
+    <div class="app-header-content">
+        <!-- Logo e Nome Kalo -->
+        <a href="{% url 'dashboard:index' %}" class="kalo-brand">
+            <span class="kalo-leaf-icon">
+                <!-- SVG Duas Folhas Kalo em Lima Elétrico -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3C7.5 3 4 6.5 4 11C4 13.5 5.2 15.8 7 17.2L6 21L9.8 20C10.5 20.2 11.2 20.3 12 20.3C16.5 20.3 20 16.8 20 12.3C20 7.8 16.5 3 12 3Z" fill="#d2f864" fill-opacity="0.25"/>
+                    <path d="M7.5 8C5.5 10 5.2 13.5 7 15.5C8.8 17.5 12 17.8 14 15.8C16 13.8 16 10.5 14 8.5C12 6.5 9.5 6 7.5 8Z" fill="#d2f864"/>
+                    <path d="M14.5 5C13 6.5 12.8 9 14.2 10.5C15.6 12 18 12.2 19.5 10.7C21 9.2 21 6.8 19.5 5.3C18 3.8 16 3.5 14.5 5Z" fill="#d2f864" fill-opacity="0.8"/>
+                </svg>
+            </span>
+            <span class="kalo-brand-name">Kalo</span>
+        </a>
+
+        <!-- Área Direita: Streak Pill Badge + Avatar -->
+        <div class="kalo-header-right">
+            <div class="kalo-streak-badge" title="Sequência de Consistência">
+                <span class="kalo-streak-flame">🔥</span>
+                <span>{{ kpis.streak_count|default:"12" }}</span>
+            </div>
+
+            <a href="{% url 'accounts:logout' %}" class="kalo-avatar" title="Conectado como {{ user.first_name|default:user.username }} (Toque para sair)">
+                <!-- SVG Avatar Perfil Kalo -->
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </a>
+        </div>
+    </div>
+</header>

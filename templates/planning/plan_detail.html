@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}Planejamento Anual de 12 Meses{% endblock %}
+
+{% block content %}
+<div class="hero-card">
+    <span class="hero-tag">Periodização Completa</span>
+    <h1 class="hero-title">{{ plan.title }}</h1>
+    <p class="hero-subtitle">
+        Período: {{ plan.start_date|date:"d/m/Y" }} até {{ plan.end_date|date:"d/m/Y" }} (52 Semanas)
+    </p>
+
+    <!-- Ações e Histórico -->
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px;">
+        <a href="{% url 'planning:adjustment_history' %}" class="btn btn-secondary" style="font-size: 13px;">
+            📜 Histórico de Decisões e Ajustes
+        </a>
+        <a href="{% url 'accounts:profile' %}" class="btn btn-secondary" style="font-size: 13px;">
+            👤 Perfil Físico
+        </a>
+    </div>
+</div>
+
+<!-- Fases da Periodização -->
+<h2 class="section-title">Fases da Periodização Anual (12 Meses)</h2>
+
+<div style="display: flex; flex-direction: column; gap: 14px;">
+    {% for phase in phases %}
+        <div class="card" style="border-left: 4px solid {% if phase.is_current %}#38bdf8{% elif phase.is_completed %}#10b981{% else %}#475569{% endif %};">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="tag" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-weight: 800;">
+                            FASE {{ phase.phase_number }}
+                        </span>
+                        {% if phase.is_current %}
+                            <span class="tag" style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 800;">
+                                ● FASE ATIVA ATUAL
+                            </span>
+                        {% elif phase.is_completed %}
+                            <span class="tag" style="background: rgba(100, 116, 139, 0.2); color: #94a3b8;">
+                                ✓ Concluída
+                            </span>
+                        {% endif %}
+                    </div>
+                    <h3 style="font-size: 17px; font-weight: 700; color: #fff; margin-top: 6px;">
+                        {{ phase.name }}
+                    </h3>
+                    <span style="font-size: 12px; color: var(--text-secondary);">
+                        {{ phase.start_date|date:"d/m/Y" }} até {{ phase.end_date|date:"d/m/Y" }}
+                    </span>
+                </div>
+            </div>
+
+            <p style="font-size: 13px; color: #e2e8f0; margin-bottom: 12px; line-height: 1.5;">
+                <strong>Objetivo:</strong> {{ phase.objective }}
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; background: #0d1424; padding: 12px; border-radius: var(--radius-sm); border: 1px solid #1a253a; margin-bottom: 12px; font-size: 12px;">
+                <div>
+                    <span style="color: var(--text-muted); display: block;">Séries e Repetições:</span>
+                    <strong style="color: #38bdf8;">{{ phase.sets_reps_prescription }}</strong>
+                </div>
+                <div>
+                    <span style="color: var(--text-muted); display: block;">Volume Planejado:</span>
+                    <strong style="color: #fff;">{{ phase.planned_volume }}</strong>
+                </div>
+                <div>
+                    <span style="color: var(--text-muted); display: block;">Descanso Médio:</span>
+                    <strong style="color: #fff;">{{ phase.rest_interval_seconds }} segundos</strong>
+                </div>
+                <div>
+                    <span style="color: var(--text-muted); display: block;">Intensidade Recomendada:</span>
+                    <strong style="color: #f59e0b;">{{ phase.intensity_guidance }}</strong>
+                </div>
+            </div>
+
+            <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.4;">
+                <strong style="color: #cbd5e1;">Critérios para Avanço:</strong> {{ phase.progression_criteria }}
+            </div>
+
+            <div style="margin-top: 12px;">
+                <a href="{% url 'planning:phase_detail' phase.pk %}" class="btn btn-secondary" style="padding: 6px 12px; min-height: 34px; font-size: 12px;">
+                    Ver Detalhes Técnicos da Fase →
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Autonomia de Progressão -->
+<div class="card" style="margin-top: 24px; border: 1px dashed #334155; background: #0f172a;">
+    <h3 style="font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 6px;">
+        ⚡ Avaliação Autônoma de Progressão
+    </h3>
+    <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5;">
+        O sistema analisa a regularidade de treinos concluídos e o tempo decorrido para avançar de fase com critérios técnicos e justificativa registrada no histórico.
+    </p>
+    <form method="post" action="{% url 'planning:advance_phase' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary" style="font-size: 13px;">
+            Avaliar e Avançar Fase Agora
+        </button>
+    </form>
+</div>
+{% endblock %}
+

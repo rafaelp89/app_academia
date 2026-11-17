@@ -1,0 +1,1024 @@
+/* ==========================================================================
+   KALO DESIGN SYSTEM — THEME DARK OBSIDIAN & ELECTRIC LIME
+   Musculação, Hipertrofia & Periodização Anual (12 Meses)
+   Inspirado no visual premium do aplicativo Kalo
+   ========================================================================== */
+
+:root {
+  /* Cores Base Kalo */
+  --bg-main: #0c0e0c;            /* Fundo preto fosco obsidiana */
+  --bg-card: #161916;            /* Superfície fosca dos cartões Kalo */
+  --bg-card-elevated: #1e221e;   /* Superfície elevada / hover */
+  --bg-inset: #101310;           /* Fundo recuado para métricas e caixas */
+  
+  /* Bordas sutis */
+  --border-color: rgba(255, 255, 255, 0.06);
+  --border-subtle: rgba(255, 255, 255, 0.03);
+  --border-active: rgba(210, 248, 100, 0.4);
+
+  /* Tipografia */
+  --text-primary: #ffffff;       /* Branco nítido para números e títulos */
+  --text-secondary: #8c9489;     /* Cinza sálvia suave para subtítulos e rótulos */
+  --text-muted: #555c53;         /* Cinza escuro para unidades e dados secundários */
+  
+  /* Acentos de Cor */
+  --kalo-lime: #d2f864;          /* Lima elétrico vibrante Kalo */
+  --kalo-lime-hover: #bfe64e;
+  --kalo-lime-dark: #0c1103;     /* Texto de alto contraste sobre o lima */
+  --kalo-lime-light: rgba(210, 248, 100, 0.15);
+  
+  --kalo-orange: #f59e0b;        /* Laranja chama radiante para streak e destaque */
+  --kalo-orange-glow: rgba(245, 158, 11, 0.25);
+  
+  --primary: #d2f864;
+  --primary-hover: #bfe64e;
+  --primary-light: rgba(210, 248, 100, 0.15);
+  
+  --accent: #d2f864;
+  --accent-light: rgba(210, 248, 100, 0.12);
+  
+  --warning: #f59e0b;
+  --warning-light: rgba(245, 158, 11, 0.15);
+  
+  --danger: #ef4444;
+  --danger-light: rgba(239, 68, 68, 0.15);
+  
+  /* Raio de Arredondamento */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  
+  /* Sombras */
+  --shadow-sm: 0 2px 6px rgba(0,0,0,0.4);
+  --shadow-md: 0 6px 18px rgba(0,0,0,0.5);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.6);
+  --shadow-lime: 0 8px 24px rgba(210, 248, 100, 0.35);
+
+  --nav-height: 70px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.5;
+  font-size: 15px;
+  min-height: 100vh;
+  padding-bottom: calc(var(--nav-height) + 30px);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--kalo-lime);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/* Contêiner Mobile Principal */
+.container {
+  width: 100%;
+  max-width: 440px; /* Alinhado ao formato mobile elegante do print */
+  margin: 0 auto;
+  padding: 14px 16px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 600px;
+  }
+}
+
+/* ==========================================================================
+   HEADER SUPERIOR (ESTILO KALO)
+   ========================================================================== */
+.app-header {
+  background-color: var(--bg-main);
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.app-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .app-header-content {
+    max-width: 600px;
+  }
+}
+
+.kalo-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.kalo-leaf-icon {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kalo-brand-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.kalo-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Badge de Sequência (Flame Streak) */
+.kalo-streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.kalo-streak-flame {
+  font-size: 13px;
+  color: var(--kalo-orange);
+}
+
+/* Avatar do Usuário */
+.kalo-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 14px;
+  background-color: transparent;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+
+.kalo-avatar:hover {
+  border-color: var(--kalo-lime);
+}
+
+/* ==========================================================================
+   TÍTULO DA PÁGINA & SELETOR DE PERÍODO (PILLS)
+   ========================================================================== */
+.kalo-page-title-section {
+  margin: 10px 0 16px 0;
+}
+
+.kalo-page-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  margin-bottom: 2px;
+}
+
+.kalo-page-subtitle {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* Segmented Control / Pills (Week, Month, 3 Months, Year) */
+.kalo-pills-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.kalo-pills-row::-webkit-scrollbar {
+  display: none;
+}
+
+.kalo-pill {
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.kalo-pill.active {
+  background-color: var(--kalo-lime);
+  color: var(--kalo-lime-dark);
+  font-weight: 700;
+}
+
+.kalo-pill:hover:not(.active) {
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   CARTÕES PRINCIPAIS KALO (CHARTS & KPIS)
+   ========================================================================== */
+.kalo-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kalo-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.kalo-card-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.kalo-badge-diff {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--kalo-lime);
+}
+
+.kalo-badge-diff.negative {
+  color: var(--kalo-lime);
+}
+
+.kalo-badge-subtext {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: block;
+  text-align: right;
+  margin-top: 1px;
+}
+
+.kalo-stat-hero {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.kalo-stat-number {
+  font-size: 30px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.kalo-stat-unit {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Gráficos Kalo */
+.kalo-chart-container {
+  width: 100%;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.kalo-chart-container svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ==========================================================================
+   GRADE DE 2 QUADRADOS: SEQUÊNCIA (STREAK) & META (DAILY GOAL)
+   ========================================================================== */
+.kalo-square-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.kalo-square-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 148px;
+}
+
+.kalo-square-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.kalo-streak-circle-gauge {
+  width: 62px;
+  height: 62px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kalo-streak-circle-gauge svg {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.kalo-streak-flame-icon {
+  position: absolute;
+  font-size: 22px;
+  color: var(--kalo-orange);
+}
+
+/* Barra de Meta Semanal (Kalo Daily Goal Progress) */
+.kalo-bar-track {
+  width: 100%;
+  height: 6px;
+  background-color: #232822;
+  border-radius: var(--radius-full);
+  margin: 12px 0 6px 0;
+  overflow: hidden;
+}
+
+.kalo-bar-fill {
+  height: 100%;
+  background-color: var(--kalo-lime);
+  border-radius: var(--radius-full);
+  transition: width 0.4s ease;
+}
+
+.kalo-status-tag {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--kalo-lime);
+}
+
+/* ==========================================================================
+   INSIGHTS SECTION (3 CARTÕES MINI)
+   ========================================================================== */
+.kalo-section-header {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 18px 0 10px 0;
+  letter-spacing: -0.3px;
+}
+
+.kalo-insights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.kalo-insight-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.kalo-insight-label {
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kalo-insight-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.kalo-insight-sub {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.kalo-star-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+  color: #facc15;
+}
+
+/* Donut Ring Visual (Macro Balance / Divisão Muscular) */
+.kalo-donut-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.kalo-donut-svg {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+}
+
+.kalo-donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 8.5px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.kalo-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.kalo-legend-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+/* ==========================================================================
+   CARTÃO DE PRÓXIMO TREINO (HERO ACTION)
+   ========================================================================== */
+.kalo-action-card {
+  background: linear-gradient(145deg, #182018, #131713);
+  border: 1px solid rgba(210, 248, 100, 0.25);
+  border-radius: var(--radius-xl);
+  padding: 18px;
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.kalo-action-tag {
+  display: inline-block;
+  background-color: rgba(210, 248, 100, 0.15);
+  color: var(--kalo-lime);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.kalo-btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--kalo-lime);
+  color: var(--kalo-lime-dark);
+  font-size: 14px;
+  font-weight: 800;
+  padding: 12px 18px;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  margin-top: 12px;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-lime);
+  width: 100%;
+}
+
+.kalo-btn-primary:hover {
+  background-color: var(--kalo-lime-hover);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   BOTTOM NAVIGATION BAR (COM BOTÃO CENTRAL ELEVADO LIMA)
+   ========================================================================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  background-color: #0c0e0c;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 50;
+  padding: 0 10px;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  flex: 1;
+  height: 100%;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+
+.nav-item:hover, .nav-item.active {
+  color: var(--kalo-lime);
+  text-decoration: none;
+}
+
+.nav-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Botão Central Elevado Circular Kalo (+) */
+.nav-fab-center {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+}
+
+.nav-fab-btn {
+  width: 52px;
+  height: 52px;
+  background-color: var(--kalo-lime);
+  color: var(--kalo-lime-dark);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 700;
+  box-shadow: 0 4px 18px rgba(210, 248, 100, 0.45);
+  border: none;
+  cursor: pointer;
+  transform: translateY(-8px);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.nav-fab-btn:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 6px 22px rgba(210, 248, 100, 0.6);
+}
+
+/* ==========================================================================
+   TELA DE EXECUÇÃO DE TREINO (SOMENTE CHECKBOXES)
+   ========================================================================== */
+.session-header-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+
+.session-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  background-color: var(--kalo-lime-light);
+  color: var(--kalo-lime);
+}
+
+.progress-container {
+  width: 100%;
+  height: 8px;
+  background-color: #232822;
+  border-radius: var(--radius-full);
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--kalo-lime);
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease;
+}
+
+.exercise-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.exercise-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 16px;
+  transition: all 0.2s ease;
+}
+
+.exercise-card.is-completed {
+  border-color: rgba(210, 248, 100, 0.3);
+  background: linear-gradient(145deg, #171d17, #131713);
+}
+
+.exercise-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.exercise-order-name {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.exercise-order {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--kalo-lime);
+  background-color: var(--kalo-lime-light);
+  padding: 2px 7px;
+  border-radius: var(--radius-xs);
+}
+
+.exercise-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.exercise-card.is-completed .exercise-title {
+  color: #d2f864;
+}
+
+.exercise-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.tag {
+  font-size: 10.5px;
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  background-color: #202620;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.tag-machine {
+  background-color: rgba(210, 248, 100, 0.12);
+  color: var(--kalo-lime);
+  border: 1px solid rgba(210, 248, 100, 0.2);
+}
+
+/* Métricas do Exercício */
+.exercise-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background-color: var(--bg-inset);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 10px 6px;
+  gap: 4px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.metric-val {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 2px;
+}
+
+.metric-val.highlight-load {
+  color: var(--kalo-lime);
+}
+
+/* Orientação de Carga Segura */
+.load-guidance-box {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid var(--kalo-lime);
+  padding: 8px 12px;
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  font-size: 11.5px;
+  color: #b5beb2;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.load-guidance-box strong {
+  color: var(--kalo-lime);
+}
+
+/* Checkbox Toggle Button */
+.checkbox-toggle-form {
+  margin-top: 6px;
+}
+
+.checkbox-toggle-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 16px;
+  min-height: 48px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #202620;
+  color: #ffffff;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.checkbox-toggle-btn:hover {
+  background-color: #293229;
+}
+
+.checkbox-toggle-btn.btn-completed {
+  background-color: var(--kalo-lime);
+  color: var(--kalo-lime-dark);
+  border-color: var(--kalo-lime);
+  box-shadow: 0 4px 14px rgba(210, 248, 100, 0.35);
+}
+
+.checkbox-toggle-btn.btn-completed:hover {
+  background-color: var(--kalo-lime-hover);
+}
+
+.checkbox-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   VÍDEOS CURTOS VERTICAIS (9:16 SHORTS / REELS / TIKTOK)
+   ========================================================================== */
+.quick-short-accordion {
+  margin: 10px 0;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-inset);
+  overflow: hidden;
+}
+
+.quick-short-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--kalo-lime);
+  cursor: pointer;
+  user-select: none;
+}
+
+.quick-short-summary::-webkit-details-marker {
+  display: none;
+}
+
+.quick-short-body {
+  padding: 14px;
+  background-color: #060806;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.short-video-phone-frame {
+  width: 100%;
+  max-width: 250px;
+  aspect-ratio: 9 / 16;
+  background-color: #000;
+  border-radius: 24px;
+  padding: 6px;
+  border: 2px solid #232a23;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.short-video-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.short-video-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ==========================================================================
+   BOTÕES E COMPONENTES GENÉRICOS
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  min-height: 42px;
+  border-radius: var(--radius-full);
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--kalo-lime);
+  color: var(--kalo-lime-dark);
+}
+
+.btn-primary:hover {
+  background-color: var(--kalo-lime-hover);
+}
+
+.btn-secondary {
+  background-color: #202620;
+  color: #ffffff;
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background-color: #2a332a;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* Alertas */
+.alert {
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+  font-size: 13.5px;
+}
+
+.alert-success {
+  background-color: var(--kalo-lime-light);
+  border: 1px solid var(--kalo-lime);
+  color: var(--kalo-lime);
+}
+
+.alert-warning {
+  background-color: var(--warning-light);
+  border: 1px solid var(--warning);
+  color: #fde68a;
+}
+
+.alert-error {
+  background-color: var(--danger-light);
+  border: 1px solid var(--danger);
+  color: #fca5a5;
+}
+
+/* Formulários */
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  background-color: #101310;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--kalo-lime);
+}
+
+.safety-disclaimer {
+  background-color: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 12px;
+  color: #fde68a;
+  line-height: 1.4;
+}
+
+.safety-disclaimer strong {
+  color: var(--kalo-orange);
+}

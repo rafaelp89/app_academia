@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ exercise.name }} — Detalhes Biomecânicos{% endblock %}
+
+{% block content %}
+<div class="hero-card">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+        <span class="hero-tag">{{ exercise.primary_muscle.name }}</span>
+        {% if exercise.is_lower_body_machine %}
+            <span class="tag tag-machine">⚙️ Membros Inferiores: Máquina Convencional</span>
+        {% endif %}
+    </div>
+    
+    <h1 class="hero-title">{{ exercise.name }}</h1>
+    <p class="hero-subtitle">{{ exercise.equipment }} • {{ exercise.get_load_unit_type_display }}</p>
+</div>
+
+<!-- Ficha Técnica e Biomecânica -->
+<div class="card">
+    <h2 class="section-title">Instruções de Execução</h2>
+    <p style="font-size: 14px; color: var(--text-primary); line-height: 1.6; margin-bottom: 16px;">
+        {{ exercise.execution_guide }}
+    </p>
+
+    <h2 class="section-title">Postura e Posicionamento Correto</h2>
+    <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px;">
+        {{ exercise.posture_tips }}
+    </p>
+
+    <h2 class="section-title">Cuidados Técnicos & Segurança</h2>
+    <div style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38bdf8; padding: 12px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 16px;">
+        <p style="font-size: 13px; color: #cbd5e1; line-height: 1.5;">
+            {{ exercise.technical_cautions }}
+        </p>
+    </div>
+
+    <h2 class="section-title" style="color: #f87171;">Erros Comuns a Evitar</h2>
+    <div style="background: rgba(239, 68, 68, 0.08); border-left: 3px solid #ef4444; padding: 12px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 16px;">
+        <p style="font-size: 13px; color: #fca5a5; line-height: 1.5;">
+            {{ exercise.common_errors }}
+        </p>
+    </div>
+
+    {% if exercise.video_url %}
+        <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-color); text-align: center;">
+            <span class="short-video-badge">
+                📱 Vídeo Curto Vertical (Estilo Shorts / Reels / TikTok)
+            </span>
+            <h3 style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px;">
+                Demonstração em Formato Curto (30 a 60s)
+            </h3>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+                Vídeo vertical demonstrando alinhamento articular, cadência e amplitude correta:
+            </p>
+
+            <div class="short-video-phone-frame">
+                <div class="short-video-container">
+                    <iframe 
+                        src="{{ exercise.embed_video_url }}" 
+                        title="{{ exercise.name }} - Execução Rápida em Vídeo Curto" 
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+
+            <div style="margin-top: 14px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <a href="{{ exercise.shorts_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 12px; padding: 8px 14px; min-height: 36px;">
+                    Assistir no YouTube Shorts ↗
+                </a>
+                <a href="{{ exercise.video_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 12px; padding: 8px 14px; min-height: 36px;">
+                    Link do Vídeo ↗
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<div style="margin-top: 16px;">
+    <a href="{% url 'training:exercise_list' %}" class="btn btn-secondary">
+        ← Voltar à Biblioteca
+    </a>
+</div>
+{% endblock %}
+

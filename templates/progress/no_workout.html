@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Nenhum Treino Agendado{% endblock %}
+
+{% block content %}
+<div class="card" style="text-align: center; padding: 40px 20px;">
+    <span style="font-size: 40px; display: block; margin-bottom: 12px;">📅</span>
+    <h1 style="font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px;">
+        Nenhuma Sessão Agendada Localizada
+    </h1>
+    <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px;">
+        Não encontramos sessões pendentes no momento. Verifique o calendário ou o planejamento anual.
+    </p>
+    <a href="{% url 'dashboard:index' %}" class="btn btn-primary">
+        Ir para o Dashboard
+    </a>
+</div>
+{% endblock %}
+

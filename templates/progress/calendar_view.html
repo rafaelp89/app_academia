@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Calendário Anual de Treinamento{% endblock %}
+
+{% block content %}
+<div class="calendar-card">
+    <div class="calendar-header">
+        <div>
+            <span class="hero-tag">Calendário de 12 Meses</span>
+            <h1 style="font-size: 20px; font-weight: 800; color: #fff;">
+                {{ calendar_data.month_name }} {{ calendar_data.year }}
+            </h1>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <a href="{% url 'progress:calendar_view' %}?year={{ calendar_data.prev_year }}&month={{ calendar_data.prev_month }}" class="btn btn-secondary" style="padding: 6px 12px; min-height: 36px; font-size: 13px;">
+                ◀ Anterior
+            </a>
+            <a href="{% url 'progress:calendar_view' %}?year={{ calendar_data.next_year }}&month={{ calendar_data.next_month }}" class="btn btn-secondary" style="padding: 6px 12px; min-height: 36px; font-size: 13px;">
+                Próximo ▶
+            </a>
+        </div>
+    </div>
+
+    <!-- Grade do Calendário (Dias da Semana: Seg a Dom) -->
+    <div class="calendar-grid">
+        <div class="cal-weekday">Seg</div>
+        <div class="cal-weekday">Ter</div>
+        <div class="cal-weekday">Qua</div>
+        <div class="cal-weekday">Qui</div>
+        <div class="cal-weekday">Sex</div>
+        <div class="cal-weekday">Sáb</div>
+        <div class="cal-weekday">Dom</div>
+
+        {% for week in calendar_data.weeks %}
+            {% for day in week %}
+                {% if day.workout %}
+                    <a href="{% url 'progress:workout_session' day.workout.pk %}" 
+                       class="cal-day {% if not day.is_current_month %}other-month{% endif %} {% if day.is_today %}today{% endif %} training-day {% if day.workout.status == 'CONCLUIDO' %}done{% elif day.workout.status == 'PENDENTE' and day.date < today %}pending-missed{% endif %}"
+                       title="{{ day.date|date:'d/m/Y' }} — Treino {{ day.workout.session_code }}: {{ day.workout.title }} ({{ day.workout.get_status_display }})">
+                        <span>{{ day.day_num }}</span>
+                        <span class="cal-badge" style="{% if day.workout.session_code == 'A' %}color: #38bdf8;{% elif day.workout.session_code == 'B' %}color: #34d399;{% else %}color: #fbbf24;{% endif %}">
+                            {{ day.workout.session_code }}{% if day.workout.status == 'CONCLUIDO' %}✓{% endif %}
+                        </span>
+                    </a>
+                {% else %}
+                    <div class="cal-day {% if not day.is_current_month %}other-month{% endif %} {% if day.is_today %}today{% endif %}">
+                        <span>{{ day.day_num }}</span>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+    <!-- Legenda do Calendário -->
+    <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 20px; font-size: 12px; color: var(--text-secondary); border-top: 1px solid var(--border-color); padding-top: 14px;">
+        <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 3px; background: rgba(16, 185, 129, 0.5); border: 1px solid #10b981;"></span>
+            <span>Concluído (✓)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 3px; background: #182338; border: 1px solid #283753;"></span>
+            <span>Programado (Seg/Qua/Sex)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 3px; background: rgba(245, 158, 11, 0.4); border: 1px solid #f59e0b;"></span>
+            <span>Pendente</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 3px; border: 1px solid #38bdf8;"></span>
+            <span>Hoje</span>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

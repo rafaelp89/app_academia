@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Fase {{ phase.phase_number }}: {{ phase.name }}{% endblock %}
+
+{% block content %}
+<div class="hero-card">
+    <span class="hero-tag">Fase {{ phase.phase_number }} de 5</span>
+    <h1 class="hero-title">{{ phase.name }}</h1>
+    <p class="hero-subtitle">
+        Período: {{ phase.start_date|date:"d/m/Y" }} até {{ phase.end_date|date:"d/m/Y" }}
+    </p>
+</div>
+
+<div class="card">
+    <h2 class="section-title">Objetivo Técnico da Fase</h2>
+    <p style="font-size: 14px; color: var(--text-primary); line-height: 1.6; margin-bottom: 16px;">
+        {{ phase.objective }}
+    </p>
+
+    <h2 class="section-title">Estratégia de Treinamento</h2>
+    <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px;">
+        {{ phase.strategy }}
+    </p>
+
+    <h2 class="section-title">Prescrição & Parâmetros</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 16px;">
+        <div style="background: #0d1424; padding: 12px; border-radius: var(--radius-sm);">
+            <span class="metric-label">Grupos Priorizados</span>
+            <span style="font-size: 13px; font-weight: 700; color: #fff; display: block; margin-top: 4px;">{{ phase.prioritized_muscles }}</span>
+        </div>
+        <div style="background: #0d1424; padding: 12px; border-radius: var(--radius-sm);">
+            <span class="metric-label">Volume Planejado</span>
+            <span style="font-size: 13px; font-weight: 700; color: #38bdf8; display: block; margin-top: 4px;">{{ phase.planned_volume }}</span>
+        </div>
+        <div style="background: #0d1424; padding: 12px; border-radius: var(--radius-sm);">
+            <span class="metric-label">Séries e Repetições</span>
+            <span style="font-size: 13px; font-weight: 700; color: #34d399; display: block; margin-top: 4px;">{{ phase.sets_reps_prescription }}</span>
+        </div>
+        <div style="background: #0d1424; padding: 12px; border-radius: var(--radius-sm);">
+            <span class="metric-label">Descanso Sugerido</span>
+            <span style="font-size: 13px; font-weight: 700; color: #fff; display: block; margin-top: 4px;">{{ phase.rest_interval_seconds }} segundos</span>
+        </div>
+    </div>
+
+    <h2 class="section-title">Intensidade & Esforço (RPE / RIR Educativo)</h2>
+    <div style="background: rgba(245, 158, 11, 0.1); border-left: 3px solid #f59e0b; padding: 12px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 16px;">
+        <p style="font-size: 13px; color: #fde68a; line-height: 1.5;">
+            {{ phase.intensity_guidance }}
+        </p>
+    </div>
+
+    <h2 class="section-title">Critérios para Avançar à Próxima Etapa</h2>
+    <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">
+        {{ phase.progression_criteria }}
+    </p>
+</div>
+
+<div style="margin-top: 16px;">
+    <a href="{% url 'planning:plan_detail' %}" class="btn btn-secondary">
+        ← Voltar ao Planejamento Geral
+    </a>
+</div>
+{% endblock %}
+

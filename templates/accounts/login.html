@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Acesso ao Aplicativo{% endblock %}
+
+{% block content %}
+<div style="max-width: 420px; margin: 40px auto 0;">
+    <div class="hero-card" style="text-align: center;">
+        <span class="hero-tag">Acesso Pessoal</span>
+        <h1 class="hero-title">Musculação & Hipertrofia</h1>
+        <p class="hero-subtitle">Planejamento Anual de 12 Meses e Acompanhamento de Treinos</p>
+    </div>
+
+    <div class="card">
+        <form method="post" action="{% url 'accounts:login' %}">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label class="form-label" for="id_username">Usuário</label>
+                <input type="text" name="username" id="id_username" class="form-input" required autofocus placeholder="Ex: rafael">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="id_password">Senha</label>
+                <input type="password" name="password" id="id_password" class="form-input" required placeholder="Sua senha de acesso">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top: 20px;">
+                Entrar no Sistema
+            </button>
+        </form>
+
+        <div style="margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border-color); text-align: center; font-size: 13px; color: var(--text-muted);">
+            Credencial padrão criada: <strong>rafael</strong> / <strong>academia123</strong>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

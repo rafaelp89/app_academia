@@ -1,0 +1,111 @@
+<div class="exercise-card {% if record.is_completed %}is-completed{% endif %}" id="exercise-card-{{ record.id }}">
+    <div class="exercise-card-header">
+        <div>
+            <div class="exercise-order-name">
+                <span class="exercise-order">#{{ record.order }}</span>
+                <span class="exercise-title">{{ record.exercise.name }}</span>
+            </div>
+            <div class="exercise-tags">
+                <span class="tag">{{ record.exercise.primary_muscle.name }}</span>
+                <span class="tag">{{ record.exercise.equipment }}</span>
+                {% if record.exercise.is_lower_body_machine %}
+                    <span class="tag tag-machine">⚙️ Máquina Convencional</span>
+                {% endif %}
+            </div>
+        </div>
+        <div>
+            <a href="{% url 'training:exercise_detail' record.exercise.pk %}" title="Ver instruções de execução e vídeo demonstrativo" style="font-size: 18px; text-decoration: none;">
+                ℹ️
+            </a>
+        </div>
+    </div>
+
+    <!-- Faixa de Carga e Métricas Prescritas -->
+    <div class="exercise-metrics">
+        <div class="metric-item">
+            <span class="metric-label">Carga Sugerida</span>
+            <span class="metric-val highlight-load">{{ record.load_min_kg }}–{{ record.load_max_kg }} kg</span>
+        </div>
+        <div class="metric-item">
+            <span class="metric-label">Séries</span>
+            <span class="metric-val">{{ record.prescribed_sets }}</span>
+        </div>
+        <div class="metric-item">
+            <span class="metric-label">Repetições</span>
+            <span class="metric-val">{{ record.prescribed_reps }}</span>
+        </div>
+        <div class="metric-item">
+            <span class="metric-label">Descanso</span>
+            <span class="metric-val">{{ record.rest_seconds }}s</span>
+        </div>
+    </div>
+
+    <!-- Orientação Pedagógica de Carga e Ajuste Seguro -->
+    <div class="load-guidance-box">
+        <strong>Orientação de Carga:</strong> Faixa de trabalho estimada ({{ record.exercise.get_load_unit_type_display }}). Reduza o peso imediatamente caso haja perda do padrão técnico ou compensação postural.
+    </div>
+
+    <!-- Vídeo Curto Vertical (Estilo Shorts / Reels / TikTok) -->
+    {% if record.exercise.video_url %}
+        <details class="quick-short-accordion">
+            <summary class="quick-short-summary">
+                <span>📱 Ver Vídeo Curto (30s)</span>
+                <span style="font-size: 11px; opacity: 0.8;">Toque para abrir ▼</span>
+            </summary>
+            <div class="quick-short-body">
+                <div class="short-video-phone-frame" style="max-width: 250px;">
+                    <div class="short-video-container">
+                        <iframe 
+                            src="{{ record.exercise.embed_video_url }}" 
+                            title="{{ record.exercise.name }} - Shorts" 
+                            loading="lazy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                <div style="margin-top: 8px;">
+                    <a href="{{ record.exercise.shorts_url }}" target="_blank" rel="noopener noreferrer" style="font-size: 12px; color: #38bdf8; font-weight: 600;">
+                        Abrir no YouTube Shorts ↗
+                    </a>
+                </div>
+            </div>
+        </details>
+    {% endif %}
+
+    <!-- Única Interação Diária Permitida: Checkbox HTMX Reativo -->
+    <div class="checkbox-toggle-form">
+        <button 
+            type="button"
+            class="checkbox-toggle-btn {% if record.is_completed %}btn-completed{% endif %}"
+            hx-post="{% url 'progress:toggle_exercise_checkbox' record.id %}"
+            hx-target="#exercise-card-{{ record.id }}"
+            hx-swap="outerHTML"
+            title="Clique para alternar a conclusão deste exercício">
+            <span class="checkbox-icon">
+                {% if record.is_completed %}☑{% else %}☐{% endif %}
+            </span>
+            <span>
+                {% if record.is_completed %}
+                    Concluído {% if record.completed_at %}({{ record.completed_at|date:"H:i" }}){% endif %}
+                {% else %}
+                    Marcar como Concluído
+                {% endif %}
+            </span>
+        </button>
+    </div>
+</div>
+
+<!-- Atualização Out-of-Band (OOB) do Contador e Barra de Progresso da Sessão -->
+<div id="workout-progress-header" hx-swap-oob="true">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-size: 13px; color: var(--text-secondary); font-weight: 600;">Progresso da Sessão</span>
+        <span style="font-size: 14px; font-weight: 800; color: var(--kalo-lime);">
+            {{ workout.completed_exercises }}/{{ workout.total_exercises }} ({{ workout.completion_percentage }}%)
+        </span>
+    </div>
+    <div class="progress-container">
+        <div class="progress-bar" style="width: {{ workout.completion_percentage }}%;"></div>
+    </div>
+</div>
+

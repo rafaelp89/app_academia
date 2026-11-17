@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Modelos de Sessão (Treinos A, B e C){% endblock %}
+
+{% block content %}
+<div class="hero-card">
+    <span class="hero-tag">Divisão Semanal</span>
+    <h1 class="hero-title">Estrutura de Sessões (A, B e C)</h1>
+    <p class="hero-subtitle">
+        Organização das sessões de Segunda, Quarta e Sexta com embasamento cinesiológico.
+    </p>
+</div>
+
+{% for tmpl in templates %}
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+            <div>
+                <span class="session-badge code-{{ tmpl.code }}">
+                    Treino {{ tmpl.code }} • {{ tmpl.day_of_week_label }}
+                </span>
+                <h2 style="font-size: 18px; font-weight: 700; color: #fff; margin-top: 6px;">
+                    {{ tmpl.name }}
+                </h2>
+                <span style="font-size: 13px; color: #38bdf8; font-weight: 600;">
+                    {{ tmpl.focus_summary }}
+                </span>
+            </div>
+        </div>
+
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5;">
+            {{ tmpl.description }}
+        </p>
+
+        <h3 style="font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 8px;">
+            Exercícios e Prescrição Padrão:
+        </h3>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            {% for item in tmpl.template_exercises.all %}
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #0d1424; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid #1a253a;">
+                    <div>
+                        <span style="font-size: 12px; font-weight: 700; color: #38bdf8; margin-right: 6px;">#{{ item.order }}</span>
+                        <strong style="color: #fff; font-size: 14px;">{{ item.exercise.name }}</strong>
+                        <span style="font-size: 12px; color: var(--text-muted); display: block;">{{ item.exercise.primary_muscle.name }}</span>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="font-size: 13px; font-weight: 700; color: #34d399; display: block;">
+                            {{ item.default_load_min_kg }}–{{ item.default_load_max_kg }} kg
+                        </span>
+                        <span style="font-size: 11px; color: var(--text-secondary);">
+                            {{ item.default_sets }}x{{ item.reps_min }}-{{ item.reps_max }} • {{ item.default_rest_seconds }}s
+                        </span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}
+

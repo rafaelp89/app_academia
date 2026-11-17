@@ -1,0 +1,29 @@
+# Ambientes virtuais
+venv/
+env/
+.env
+
+# Bytecode Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Banco de dados de desenvolvimento local (o backup em JSON pode ser versionado)
+database/db.sqlite3
+database/*.sqlite3
+
+# Arquivos de mídia e estáticos coletados
+media/*
+staticfiles/*
+!media/.gitkeep
+!staticfiles/.gitkeep
+
+# Arquivos de IDE
+.vscode/
+.idea/
+
+# Relatórios de testes
+.pytest_cache/
+htmlcov/
+.coverage
+

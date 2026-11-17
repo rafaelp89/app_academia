@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Treino {{ workout.session_code }} — {{ workout.scheduled_date|date:"d/m/Y" }}{% endblock %}
+
+{% block content %}
+<!-- Cabeçalho da Sessão do Dia -->
+<div class="session-header-card">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+        <span class="session-badge code-{{ workout.session_code }}">
+            Treino {{ workout.session_code }} • {{ workout.scheduled_date|date:"l" }}
+        </span>
+        <span style="font-size: 13px; color: var(--text-secondary); font-weight: 600;">
+            {{ workout.scheduled_date|date:"d/m/Y" }}
+        </span>
+    </div>
+
+    <h1 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px;">
+        {{ workout.title }}
+    </h1>
+    <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 14px;">
+        Fase {{ workout.phase.phase_number }}: {{ workout.phase.name }}
+    </p>
+
+    <!-- Contêiner do Progresso da Sessão (Atualizado dinamicamente via HTMX OOB) -->
+    <div id="workout-progress-header">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 13px; color: var(--text-secondary); font-weight: 600;">Progresso da Sessão</span>
+            <span style="font-size: 14px; font-weight: 800; color: var(--kalo-lime);">
+                {{ workout.completed_exercises }}/{{ workout.total_exercises }} ({{ workout.completion_percentage }}%)
+            </span>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" style="width: {{ workout.completion_percentage }}%;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Orientação de Segurança Obrigatória -->
+<div class="safety-disclaimer" style="margin-top: -10px; margin-bottom: 16px;">
+    <strong>Instrução de Segurança:</strong> As faixas de carga indicam estimativas iniciais de trabalho. Ajuste a carga para baixo sempre que a técnica correta ou o alinhamento corporal for comprometido.
+</div>
+
+<!-- Lista de Exercícios (Checklist Reativo) -->
+<div class="exercise-list">
+    {% for record in records %}
+        {% include 'progress/components/exercise_row.html' with record=record workout=workout %}
+    {% empty %}
+        <div class="card" style="text-align: center; color: var(--text-muted);">
+            Nenhum exercício programado para esta sessão.
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Navegação Inferior entre Sessões -->
+<div style="display: flex; justify-content: space-between; gap: 12px; margin-top: 20px;">
+    <a href="{% url 'progress:weekly_view' %}?date={{ workout.scheduled_date|date:'Y-m-d' }}" class="btn btn-secondary btn-block">
+        ← Ver Semana
+    </a>
+    <a href="{% url 'progress:calendar_view' %}?year={{ workout.scheduled_date.year }}&month={{ workout.scheduled_date.month }}" class="btn btn-secondary btn-block">
+        Ver Calendário →
+    </a>
+</div>
+{% endblock %}
+

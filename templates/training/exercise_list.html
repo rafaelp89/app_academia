@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Biblioteca de Exercícios{% endblock %}
+
+{% block content %}
+<div class="hero-card">
+    <span class="hero-tag">Cinesiologia & Biomecânica</span>
+    <h1 class="hero-title">Biblioteca de Exercícios</h1>
+    <p class="hero-subtitle">
+        Acervo técnico completo. Para membros inferiores, estruturado exclusivamente com máquinas convencionais.
+    </p>
+</div>
+
+<!-- Filtros por Grupo Muscular -->
+<div class="card" style="padding: 12px;">
+    <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;">
+        <a href="{% url 'training:exercise_list' %}" class="btn {% if not current_filter %}btn-primary{% else %}btn-secondary{% endif %}" style="padding: 6px 12px; min-height: 34px; font-size: 12px; white-space: nowrap;">
+            Todos
+        </a>
+        {% for mg in muscle_groups %}
+            <a href="{% url 'training:exercise_list' %}?muscle={{ mg.name }}" class="btn {% if current_filter == mg.name %}btn-primary{% else %}btn-secondary{% endif %}" style="padding: 6px 12px; min-height: 34px; font-size: 12px; white-space: nowrap;">
+                {{ mg.name }}
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Lista de Exercícios -->
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px;">
+    {% for exercise in exercises %}
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 0;">
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
+                    <h3 style="font-size: 16px; font-weight: 700; color: #fff;">
+                        {{ exercise.name }}
+                    </h3>
+                    {% if exercise.is_lower_body_machine %}
+                        <span class="tag tag-machine" style="font-size: 10px;">Máquina</span>
+                    {% endif %}
+                </div>
+
+                <div class="exercise-tags" style="margin-bottom: 10px;">
+                    <span class="tag">{{ exercise.primary_muscle.name }}</span>
+                    <span class="tag">{{ exercise.equipment }}</span>
+                </div>
+
+                <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 12px;">
+                    {{ exercise.execution_guide }}
+                </p>
+            </div>
+
+            <div>
+                <a href="{% url 'training:exercise_detail' exercise.pk %}" class="btn btn-secondary btn-block" style="padding: 6px 12px; min-height: 36px; font-size: 13px;">
+                    Ver Ficha Completa & Vídeo →
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
