@@ -67,6 +67,47 @@ class DashboardService:
         curr_week_done = curr_week_workouts.filter(status='CONCLUIDO').count()
         curr_week_pct = int((curr_week_done / curr_week_total * 100)) if curr_week_total > 0 else 0
 
+        # Monta os 7 dias da semana corrente com status dos treinos programados (Seg/Qua/Sex)
+        weekdays_info = [
+            {'weekday': 0, 'name': 'Seg', 'name_en': 'Mon', 'full_name': 'Segunda-feira', 'session_code': 'A', 'focus': 'Peitoral, Ombros e Tríceps'},
+            {'weekday': 1, 'name': 'Ter', 'name_en': 'Tue', 'full_name': 'Terça-feira', 'session_code': None, 'focus': 'Descanso'},
+            {'weekday': 2, 'name': 'Qua', 'name_en': 'Wed', 'full_name': 'Quarta-feira', 'session_code': 'B', 'focus': 'Costas, Bíceps e Trapézio'},
+            {'weekday': 3, 'name': 'Qui', 'name_en': 'Thu', 'full_name': 'Quinta-feira', 'session_code': None, 'focus': 'Descanso'},
+            {'weekday': 4, 'name': 'Sex', 'name_en': 'Fri', 'full_name': 'Sexta-feira', 'session_code': 'C', 'focus': 'Membros Inferiores e Abdômen'},
+            {'weekday': 5, 'name': 'Sáb', 'name_en': 'Sat', 'full_name': 'Sábado', 'session_code': None, 'focus': 'Descanso'},
+            {'weekday': 6, 'name': 'Dom', 'name_en': 'Sun', 'full_name': 'Domingo', 'session_code': None, 'focus': 'Descanso'},
+        ]
+
+        week_days_schedule = []
+        for info in weekdays_info:
+            day_date = monday + timedelta(days=info['weekday'])
+            workout = curr_week_workouts.filter(scheduled_date=day_date).first()
+            is_training = info['session_code'] is not None
+            is_today = (day_date == today)
+            is_past = (day_date < today)
+            is_done = (workout.status == 'CONCLUIDO') if workout else False
+
+            week_days_schedule.append({
+                'name': info['name'],
+                'name_en': info['name_en'],
+                'full_name': info['full_name'],
+                'date': day_date,
+                'day_num': day_date.day,
+                'session_code': info['session_code'],
+                'focus': info['focus'],
+                'is_training': is_training,
+                'is_today': is_today,
+                'is_past': is_past,
+                'is_done': is_done,
+                'workout': workout,
+            })
+
+        training_days_summary = [
+            {'day': 'Segunda', 'code': 'A', 'label': 'Treino A', 'focus': 'Peito / Ombros / Tríceps'},
+            {'day': 'Quarta', 'code': 'B', 'label': 'Treino B', 'focus': 'Costas / Bíceps / Trapézio'},
+            {'day': 'Sexta', 'code': 'C', 'label': 'Treino C', 'focus': 'Pernas (Máquinas)'},
+        ]
+
         return {
             'overall_progress_pct': overall_progress_pct,
             'total_workouts': total_workouts,
@@ -89,6 +130,8 @@ class DashboardService:
             'best_day_en': 'Friday',
             'best_day_calories': '1,820 kcal',
             'best_day_workout': 'Treino C',
+            'week_days_schedule': week_days_schedule,
+            'training_days_summary': training_days_summary,
         }
 
     @classmethod

@@ -3,10 +3,72 @@
 {% block title %}Your progress — Kalo{% endblock %}
 
 {% block content %}
-<!-- Título da Página Kalo -->
+<!-- Título da Página Kalo & Dias de Treino Fixos -->
 <div class="kalo-page-title-section">
-    <h1 class="kalo-page-title">Your progress</h1>
-    <p class="kalo-page-subtitle">Small steps, big changes.</p>
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 8px;">
+        <div>
+            <h1 class="kalo-page-title">Your progress</h1>
+            <p class="kalo-page-subtitle">Small steps, big changes.</p>
+        </div>
+        
+        <!-- Dias da semana que vou malhar (Seg, Qua, Sex) -->
+        <div class="kalo-training-badges-group" title="Seus dias de treino fixos na semana">
+            <span class="kalo-workout-day-pill">
+                <span class="day-name">Seg</span>
+                <span class="day-code">A</span>
+            </span>
+            <span class="kalo-workout-day-pill">
+                <span class="day-name">Qua</span>
+                <span class="day-code">B</span>
+            </span>
+            <span class="kalo-workout-day-pill day-peak">
+                <span class="day-name">Sex</span>
+                <span class="day-code">C</span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<!-- Barra da Semana: Dias que vou malhar com status da semana atual -->
+<div class="kalo-week-strip-card">
+    <div class="kalo-week-strip-header">
+        <span class="kalo-week-strip-label">
+            <span>📅</span>
+            <span>Dias de Treino da Semana</span>
+        </span>
+        <span class="kalo-week-strip-sub">Seg (A) • Qua (B) • Sex (C)</span>
+    </div>
+
+    <div class="kalo-week-days-grid">
+        {% for day in kpis.week_days_schedule %}
+            <div class="kalo-day-col {% if day.is_training %}is-training{% endif %} {% if day.is_today %}is-today{% endif %} {% if day.is_done %}is-done{% endif %}">
+                <span class="day-weekday">{{ day.name }}</span>
+                <span class="day-number">{{ day.day_num }}</span>
+                
+                {% if day.is_training %}
+                    {% if day.workout %}
+                        <a href="{% url 'progress:workout_session' day.workout.pk %}" class="day-badge-action code-{{ day.session_code }}" title="{{ day.full_name }}: {{ day.focus }} (Toque para abrir)">
+                            {% if day.is_done %}
+                                <span>✓</span>
+                            {% else %}
+                                <span>{{ day.session_code }}</span>
+                            {% endif %}
+                        </a>
+                    {% else %}
+                        <span class="day-badge-action code-{{ day.session_code }}" title="{{ day.full_name }}: {{ day.focus }}">
+                            <span>{{ day.session_code }}</span>
+                        </span>
+                    {% endif %}
+                {% else %}
+                    <span class="day-rest-dot" title="{{ day.full_name }}: Descanso">•</span>
+                {% endif %}
+
+                {% if day.is_today %}
+                    <span class="day-today-indicator">Hoje</span>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 </div>
 
 <!-- Seletor de Período em Pílulas (Pills Segmented Control) -->

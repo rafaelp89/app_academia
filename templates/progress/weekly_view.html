@@ -76,30 +76,31 @@
 <!-- Lista das 3 Sessões Semanais (Segunda, Quarta e Sexta) -->
 <h2 class="section-title" style="margin-top: 20px;">Sessões da Semana</h2>
 {% for workout in week_data.workouts %}
-    <div class="card" style="border-left: 4px solid {% if workout.status == 'CONCLUIDO' %}#10b981{% elif workout.status == 'PENDENTE' %}#f59e0b{% else %}#ef4444{% endif %};">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px;">
-            <div>
-                <span class="session-badge code-{{ workout.session_code }}">
-                    {{ workout.scheduled_date|date:"l" }} • Treino {{ workout.session_code }}
-                </span>
-                <h3 style="font-size: 16px; font-weight: 700; color: #fff; margin-top: 6px;">
-                    {{ workout.title }}
-                </h3>
-                <span style="font-size: 12px; color: var(--text-secondary);">
-                    {{ workout.scheduled_date|date:"d/m/Y" }} • {{ workout.completed_exercises }}/{{ workout.total_exercises }} exercícios concluídos
-                </span>
-            </div>
+    <div class="card" style="border-left: 4px solid {% if workout.status == 'CONCLUIDO' %}var(--kalo-lime){% elif workout.status == 'PENDENTE' %}var(--kalo-orange){% else %}var(--danger){% endif %}; padding: 16px;">
+        <!-- Linha Superior: Badge do Treino na Esquerda e Status 'Pendente' fixo na Direita -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span class="session-badge code-{{ workout.session_code }}">
+                {{ workout.scheduled_date|date:"l" }} • Treino {{ workout.session_code }}
+            </span>
+            <span class="tag" style="font-weight: 700; font-size: 11.5px; padding: 4px 10px; border-radius: var(--radius-full); {% if workout.status == 'CONCLUIDO' %}background: rgba(210, 248, 100, 0.15); color: var(--kalo-lime); border: 1px solid rgba(210, 248, 100, 0.3);{% elif workout.status == 'PENDENTE' %}background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);{% else %}background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3);{% endif %}">
+                {% if workout.status == 'CONCLUIDO' %}✓ Concluído{% else %}{{ workout.get_status_display }}{% endif %}
+            </span>
+        </div>
+
+        <!-- Título do Treino -->
+        <h3 style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; line-height: 1.35;">
+            {{ workout.title }}
+        </h3>
+
+        <!-- Linha Inferior: Data/Progresso na Esquerda e Botão de Ação na Direita -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+            <span style="font-size: 12px; color: var(--text-secondary);">
+                {{ workout.scheduled_date|date:"d/m/Y" }} • {{ workout.completed_exercises }}/{{ workout.total_exercises }} exercícios concluídos
+            </span>
             
-            <div style="text-align: right;">
-                <span class="tag" style="font-weight: 700; {% if workout.status == 'CONCLUIDO' %}background: rgba(16, 185, 129, 0.2); color: #34d399;{% elif workout.status == 'PENDENTE' %}background: rgba(245, 158, 11, 0.2); color: #fbbf24;{% else %}background: rgba(239, 68, 68, 0.2); color: #f87171;{% endif %}">
-                    {{ workout.get_status_display }}
-                </span>
-                <div style="margin-top: 10px;">
-                    <a href="{% url 'progress:workout_session' workout.pk %}" class="btn btn-secondary" style="padding: 6px 12px; min-height: 36px; font-size: 13px;">
-                        Ver Checklist →
-                    </a>
-                </div>
-            </div>
+            <a href="{% url 'progress:workout_session' workout.pk %}" class="btn btn-secondary" style="padding: 6px 14px; min-height: 34px; font-size: 12.5px; border-radius: var(--radius-full); margin-left: auto;">
+                Ver Checklist →
+            </a>
         </div>
 
         {% if workout.reorganization_note %}
