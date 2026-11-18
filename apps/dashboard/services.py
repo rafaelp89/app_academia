@@ -108,11 +108,22 @@ class DashboardService:
             {'day': 'Sexta', 'code': 'C', 'label': 'Treino C', 'focus': 'Pernas (Máquinas)'},
         ]
 
+        # Estado do Aplicativo: Modo de Preparação / Pré-Lançamento
+        # Como o aplicativo ainda vai ser lançado oficialmente após a conclusão do projeto,
+        # mantemos o progresso e indicadores em estado pendente real (0% concluído).
+        is_pre_launch = (completed_workouts == 0)
+
+        streak_count = 0 if is_pre_launch else completed_workouts
+        avg_calories = "0" if is_pre_launch else f"{total_exercises_completed * 80}"
+        estimated_weekly_calories = 0 if is_pre_launch else 1420
+
         return {
+            'is_pre_launch': is_pre_launch,
+            'plan_status_label': 'Aguardando Lançamento Oficial' if is_pre_launch else 'Em Andamento',
             'overall_progress_pct': overall_progress_pct,
             'total_workouts': total_workouts,
             'completed_workouts': completed_workouts,
-            'pending_workouts': pending_workouts,
+            'pending_workouts': total_workouts - completed_workouts,
             'current_week_num': current_week_num,
             'days_remaining': days_remaining,
             'current_phase': current_phase,
@@ -122,13 +133,13 @@ class DashboardService:
             'current_week_pct': curr_week_pct,
             'current_week_done': curr_week_done,
             'current_week_total': curr_week_total,
-            'streak_count': max(12, completed_workouts), # Sequência de consistência (dias/treinos)
-            'estimated_weekly_calories': 1420,
-            'avg_calories': '1,420',
-            'weight_avg': 85.0,
-            'best_day_name': 'Sexta-feira',
-            'best_day_en': 'Friday',
-            'best_day_calories': '1,820 kcal',
+            'streak_count': streak_count,
+            'estimated_weekly_calories': estimated_weekly_calories,
+            'avg_calories': avg_calories,
+            'weight_avg': 85.0, # Peso inicial informado pelo praticante
+            'best_day_name': 'Sexta-feira (Planejado)',
+            'best_day_en': 'Friday (Planned)',
+            'best_day_calories': 'Treino C (Pernas)',
             'best_day_workout': 'Treino C',
             'week_days_schedule': week_days_schedule,
             'training_days_summary': training_days_summary,
@@ -148,13 +159,13 @@ class DashboardService:
         days_labels = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
         x = list(range(len(days_labels)))
 
-        # Valores representativos da semana de treino (com pico na Sexta/F)
-        # Valores simulando calorias/volume do treino como no print Kalo:
-        # M: 1400, T: 1100, W: 1350, T: 1200, F: 1850 (Pico!), S: 1250, S: 1050
-        values = [1420, 1150, 1380, 1200, 1850, 1280, 1020]
+        # Estrutura do planejamento semanal de 3 dias (Segunda, Quarta e Sexta):
+        # Seg (A): 1400 kcal est. | Qua (B): 1400 kcal est. | Sex (C): 1850 kcal est. (Pico/Pernas)
+        # Ter, Qui, Sáb e Dom: 0 (Dias de descanso planejado)
+        values = [1420, 0, 1420, 0, 1850, 0, 0]
 
-        # Barra da Sexta (índice 4 - 'F') em destaque dourado/âmbar, as demais no lima elétrico do Kalo
-        bar_colors = ['#d2f864' if i != 4 else '#f59e0b' for i in x]
+        # Barra da Sexta (índice 4 - 'F') em destaque dourado/laranja, as demais no lima elétrico do Kalo
+        bar_colors = ['#d2f864' if i in (0, 2) else ('#f59e0b' if i == 4 else '#202620') for i in x]
 
         # Título invisível para acessibilidade e validação de testes
         ax.set_title('Frequência de Treinos por Mês', color='#161916', fontsize=0.1, pad=0)
@@ -200,9 +211,8 @@ class DashboardService:
         days_labels = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
         x = list(range(len(days_labels)))
 
-        # Curva de tendência descendente suave de peso / consistência como no Kalo (85.4 kg -> 84.8 kg ou 74 -> 71)
-        # Adaptado para o usuário de 85kg:
-        y_values = [85.8, 85.6, 85.4, 85.1, 85.0, 84.8, 84.6]
+        # Peso de partida do praticante: 85.0 kg estável como linha de base inicial
+        y_values = [85.0, 85.0, 85.0, 85.0, 85.0, 85.0, 85.0]
 
         # Título invisível para acessibilidade e validação de testes
         ax.set_title('Evolução do Cumprimento', color='#161916', fontsize=0.1, pad=0)
@@ -211,8 +221,8 @@ class DashboardService:
         ax.plot(x, y_values, color='#d2f864', linewidth=2.0, marker='o', markersize=6.0,
                 markerfacecolor='#d2f864', markeredgecolor='#161916', markeredgewidth=1.2)
 
-        ax.set_yticks([84.5, 85.0, 85.5, 86.0])
-        ax.set_yticklabels(['84', '85', '85.5', '86'], color='#6d756a', fontsize=8.5, fontfamily='sans-serif')
+        ax.set_yticks([83.0, 84.0, 85.0, 86.0])
+        ax.set_yticklabels(['83', '84', '85', '86'], color='#6d756a', fontsize=8.5, fontfamily='sans-serif')
         ax.grid(axis='y', color='#252a24', linestyle=':', linewidth=1.1, alpha=0.9)
         ax.set_axisbelow(True)
         ax.set_ylim(84.2, 86.2)

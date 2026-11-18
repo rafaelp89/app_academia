@@ -1200,3 +1200,182 @@ a:hover {
 .safety-disclaimer strong {
   color: var(--kalo-orange);
 }
+
+/* ==========================================================================
+   HERO CARDS & KPI GRIDS NO ESTILO KALO (PAINEL SEMANAL & PLANEJAMENTO)
+   ========================================================================== */
+.hero-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-tag {
+  display: inline-block;
+  background-color: var(--kalo-lime-light);
+  color: var(--kalo-lime);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.hero-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.4px;
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+
+.hero-subtitle {
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  margin-bottom: 14px;
+}
+
+/* Grade de Indicadores (KPI Grid) */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+@media (min-width: 640px) {
+  .kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.kpi-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 95px;
+  transition: border-color 0.2s ease;
+}
+
+.kpi-card:hover {
+  border-color: rgba(210, 248, 100, 0.25);
+}
+
+.kpi-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.kpi-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.kpi-subtext {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   CALENDÁRIO NO ESTILO KALO
+   ========================================================================== */
+.calendar-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 18px 16px;
+  margin-bottom: 16px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  text-align: center;
+}
+
+.cal-weekday {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  padding: 4px 0;
+}
+
+.cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background-color: #101310;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  position: relative;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.cal-day.other-month {
+  opacity: 0.2;
+}
+
+.cal-day.today {
+  border-color: var(--kalo-lime);
+  font-weight: 800;
+  color: #ffffff;
+  background-color: rgba(210, 248, 100, 0.05);
+}
+
+.cal-day.training-day {
+  background-color: #1a201a;
+  color: #ffffff;
+  border-color: rgba(210, 248, 100, 0.25);
+}
+
+.cal-day.done {
+  background-color: rgba(210, 248, 100, 0.15);
+  border-color: var(--kalo-lime);
+  color: var(--kalo-lime);
+}
+
+.cal-day.pending-missed {
+  background-color: rgba(245, 158, 11, 0.15);
+  border-color: var(--kalo-orange);
+  color: #fbbf24;
+}
+
+.cal-badge {
+  font-size: 9.5px;
+  font-weight: 800;
+  position: absolute;
+  bottom: 2px;
+}

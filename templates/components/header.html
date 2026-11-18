@@ -15,9 +15,9 @@
 
         <!-- Área Direita: Streak Pill Badge + Avatar -->
         <div class="kalo-header-right">
-            <div class="kalo-streak-badge" title="Sequência de Consistência">
+            <div class="kalo-streak-badge" title="Sequência de Consistência (Aguardando início)">
                 <span class="kalo-streak-flame">🔥</span>
-                <span>{{ kpis.streak_count|default:"12" }}</span>
+                <span>{{ kpis.streak_count|default:"0" }}</span>
             </div>
 
             <a href="{% url 'accounts:logout' %}" class="kalo-avatar" title="Conectado como {{ user.first_name|default:user.username }} (Toque para sair)">

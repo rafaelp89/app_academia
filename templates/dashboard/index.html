@@ -71,6 +71,17 @@
     </div>
 </div>
 
+<!-- Banner de Status de Pré-Lançamento -->
+<div class="kalo-card" style="background: linear-gradient(145deg, #182218, #121612); border: 1px solid rgba(210, 248, 100, 0.3); padding: 14px 18px; margin-bottom: 16px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+        <span class="kalo-action-tag">🚀 Modo de Pré-Lançamento</span>
+        <span style="font-size: 11.5px; color: var(--kalo-lime); font-weight: 700;">Planejamento Estruturado</span>
+    </div>
+    <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.45;">
+        As datas e o progresso estão <strong>mantidos como pendentes</strong>. Toda a periodização de 12 meses, exercícios, faixas de carga e vídeos estão prontos para você explorar e serão ativados no lançamento oficial.
+    </p>
+</div>
+
 <!-- Seletor de Período em Pílulas (Pills Segmented Control) -->
 <div class="kalo-pills-row">
     <button class="kalo-pill active" type="button">Week</button>
@@ -79,19 +90,19 @@
     <button class="kalo-pill" type="button">Year</button>
 </div>
 
-<!-- Card 1: Frequência & Volume de Treino (Calories Intake Style) -->
+<!-- Card 1: Frequência & Volume de Treino Planejado -->
 <div class="kalo-card">
     <div class="kalo-card-header">
-        <span class="kalo-card-label">Calories intake</span>
+        <span class="kalo-card-label">Volume Planejado Semanal</span>
         <div>
-            <span class="kalo-badge-diff">↓ 8%</span>
-            <span class="kalo-badge-subtext">vs last week</span>
+            <span class="kalo-badge-diff">Pendente</span>
+            <span class="kalo-badge-subtext">Aguardando início</span>
         </div>
     </div>
 
     <div class="kalo-stat-hero">
-        <span class="kalo-stat-number">{{ kpis.avg_calories|default:"1,420" }}</span>
-        <span class="kalo-stat-unit">kcal avg</span>
+        <span class="kalo-stat-number">{{ kpis.avg_calories|default:"0" }}</span>
+        <span class="kalo-stat-unit">kcal gastas</span>
     </div>
 
     <!-- Gráfico SVG Renderizado no Servidor Python via Matplotlib (Headless) -->
@@ -100,19 +111,19 @@
     </div>
 </div>
 
-<!-- Card 2: Tendência de Peso & Cumprimento (Weight Trend Style) -->
+<!-- Card 2: Peso Corporal de Referência Inicial -->
 <div class="kalo-card">
     <div class="kalo-card-header">
-        <span class="kalo-card-label">Weight trend</span>
+        <span class="kalo-card-label">Peso Corporal de Referência</span>
         <div>
-            <span class="kalo-badge-diff">↓ 1.2 kg</span>
-            <span class="kalo-badge-subtext">vs last week</span>
+            <span class="kalo-badge-diff">85.0 kg</span>
+            <span class="kalo-badge-subtext">peso inicial informado</span>
         </div>
     </div>
 
     <div class="kalo-stat-hero">
-        <span class="kalo-stat-number">{{ kpis.weight_avg|default:"72.4" }}</span>
-        <span class="kalo-stat-unit">kg avg</span>
+        <span class="kalo-stat-number">{{ kpis.weight_avg|default:"85.0" }}</span>
+        <span class="kalo-stat-unit">kg inicial</span>
     </div>
 
     <!-- Gráfico de Linha e Pontos Matplotlib SVG -->
@@ -128,35 +139,33 @@
         <div>
             <span class="kalo-card-label">Streak</span>
             <div style="margin-top: 6px;">
-                <span style="font-size: 26px; font-weight: 700; color: #fff; line-height: 1;">{{ kpis.streak_count|default:"12" }}</span>
+                <span style="font-size: 26px; font-weight: 700; color: #fff; line-height: 1;">{{ kpis.streak_count|default:"0" }}</span>
                 <span style="font-size: 13px; color: var(--text-secondary); margin-left: 2px;">days</span>
             </div>
         </div>
 
         <div class="kalo-square-content">
-            <span style="font-size: 12px; color: var(--text-secondary);">Keep it up!</span>
+            <span style="font-size: 12px; color: var(--text-secondary);">Pronto para iniciar</span>
             
             <!-- Gauge Circular da Chama (Flame Ring) -->
             <div class="kalo-streak-circle-gauge">
                 <svg viewBox="0 0 36 36">
-                    <!-- Trilha escura de fundo -->
                     <path
                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                         fill="none"
                         stroke="#222720"
                         stroke-width="3.2"
                     />
-                    <!-- Arco em gradiente âmbar/laranja -->
                     <path
                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                         fill="none"
-                        stroke="#f59e0b"
+                        stroke="rgba(245, 158, 11, 0.4)"
                         stroke-width="3.2"
-                        stroke-dasharray="80, 100"
+                        stroke-dasharray="15, 100"
                         stroke-linecap="round"
                     />
                 </svg>
-                <span class="kalo-streak-flame-icon">🔥</span>
+                <span class="kalo-streak-flame-icon" style="opacity: 0.7;">🔥</span>
             </div>
         </div>
     </div>
@@ -166,16 +175,16 @@
         <div>
             <span class="kalo-card-label">Daily goal</span>
             <div style="margin-top: 6px;">
-                <span style="font-size: 26px; font-weight: 700; color: #fff; line-height: 1;">{{ kpis.current_week_pct|default:"68" }}%</span>
+                <span style="font-size: 26px; font-weight: 700; color: #fff; line-height: 1;">{{ kpis.current_week_pct|default:"0" }}%</span>
                 <span style="font-size: 11px; color: var(--text-secondary); margin-left: 2px;">of weekly avg</span>
             </div>
         </div>
 
         <div>
             <div class="kalo-bar-track">
-                <div class="kalo-bar-fill" style="width: {{ kpis.current_week_pct|default:'68' }}%;"></div>
+                <div class="kalo-bar-fill" style="width: {{ kpis.current_week_pct|default:'0' }}%;"></div>
             </div>
-            <span class="kalo-status-tag">On track!</span>
+            <span class="kalo-status-tag" style="color: var(--kalo-orange);">Aguardando início</span>
         </div>
     </div>
 </div>
@@ -188,9 +197,9 @@
     <div class="kalo-insight-card">
         <div>
             <span class="kalo-insight-label">Avg. calories</span>
-            <span class="kalo-insight-val">{{ kpis.avg_calories|default:"1,420" }} kcal</span>
+            <span class="kalo-insight-val">{{ kpis.avg_calories|default:"0" }} kcal</span>
         </div>
-        <span class="kalo-insight-sub">↓ 180 vs last week</span>
+        <span class="kalo-insight-sub">Aguardando início</span>
     </div>
 
     <!-- Insight 2: Macro balance (Donut Ring Visual) -->

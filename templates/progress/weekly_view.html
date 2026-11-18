@@ -1,134 +1,198 @@
 {% extends 'base.html' %}
 
-{% block title %}Painel Semanal de Treinos{% endblock %}
+{% block title %}Painel Semanal — Kalo{% endblock %}
 
 {% block content %}
-<div class="hero-card">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <span class="hero-tag">Acompanhamento Semanal</span>
+<!-- Título da Página Kalo & Navegação de Semanas -->
+<div class="kalo-page-title-section" style="margin-bottom: 12px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span class="session-badge" style="background: rgba(210, 248, 100, 0.15); color: var(--kalo-lime);">
+            Acompanhamento Semanal
+        </span>
         <div style="display: flex; gap: 8px;">
-            <a href="{% url 'progress:weekly_view' %}?date={{ week_data.prev_week_date|date:'Y-m-d' }}" class="btn btn-secondary" style="padding: 4px 10px; min-height: 32px; font-size: 12px;">
-                ◀ Semana Anterior
+            <a href="{% url 'progress:weekly_view' %}?date={{ week_data.prev_week_date|date:'Y-m-d' }}" class="kalo-pill" style="padding: 6px 14px; font-size: 12px; background: #1c221c; color: #fff; border: 1px solid rgba(255, 255, 255, 0.08);">
+                ◀ Anterior
             </a>
-            <a href="{% url 'progress:weekly_view' %}?date={{ week_data.next_week_date|date:'Y-m-d' }}" class="btn btn-secondary" style="padding: 4px 10px; min-height: 32px; font-size: 12px;">
+            <a href="{% url 'progress:weekly_view' %}?date={{ week_data.next_week_date|date:'Y-m-d' }}" class="kalo-pill" style="padding: 6px 14px; font-size: 12px; background: #1c221c; color: #fff; border: 1px solid rgba(255, 255, 255, 0.08);">
                 Próxima ▶
             </a>
         </div>
     </div>
 
-    <h1 class="hero-title">
+    <h1 class="kalo-page-title" style="font-size: 24px;">
         Semana de {{ week_data.monday|date:"d/m" }} a {{ week_data.sunday|date:"d/m/Y" }}
     </h1>
-    <p class="hero-subtitle">
-        {{ week_data.completed_sessions }} de {{ week_data.total_sessions }} sessões concluídas • Progresso Semanal: {{ week_data.progress_rate }}%
-    </p>
+    <p class="kalo-page-subtitle">Acompanhe seu ritmo e o cumprimento dos treinos previstos.</p>
+</div>
 
-    <div class="progress-container">
-        <div class="progress-bar" style="width: {{ week_data.progress_rate }}%;"></div>
+<!-- Card 1: Progresso Geral da Semana no Estilo Kalo -->
+<div class="kalo-card" style="margin-bottom: 14px;">
+    <div class="kalo-card-header">
+        <span class="kalo-card-label">Cumprimento Semanal</span>
+        <div>
+            <span class="kalo-badge-diff">{{ week_data.progress_rate }}%</span>
+            <span class="kalo-badge-subtext">taxa de conclusão</span>
+        </div>
+    </div>
+
+    <div class="kalo-stat-hero" style="margin-bottom: 6px;">
+        <span class="kalo-stat-number">{{ week_data.completed_sessions }}</span>
+        <span class="kalo-stat-unit">de {{ week_data.total_sessions }} sessões realizadas</span>
+    </div>
+
+    <!-- Barra de Progresso Kalo em Verde-Lima -->
+    <div class="kalo-bar-track" style="margin: 8px 0 6px 0;">
+        <div class="kalo-bar-fill" style="width: {{ week_data.progress_rate }}%;"></div>
+    </div>
+    <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted);">
+        <span>{{ week_data.pending_sessions }} sessões pendentes</span>
+        <span style="color: var(--kalo-lime); font-weight: 600;">Meta: 3 treinos</span>
     </div>
 </div>
 
-<!-- Painel de Métricas da Semana -->
-<div class="kpi-grid">
-    <div class="kpi-card">
-        <span class="kpi-label">Sessões Concluídas</span>
-        <span class="kpi-value" style="color: #34d399;">{{ week_data.completed_sessions }}</span>
-        <span class="kpi-subtext">de {{ week_data.total_sessions }} planejadas</span>
+<!-- Grade de 2 Quadrados Kalo: Sessões & Exercícios -->
+<div class="kalo-square-grid">
+    <!-- Quadrado 1: Sessões da Semana -->
+    <div class="kalo-square-card">
+        <div>
+            <span class="kalo-card-label">Sessões</span>
+            <div style="margin-top: 6px;">
+                <span style="font-size: 28px; font-weight: 700; color: #fff; line-height: 1;">{{ week_data.completed_sessions }}</span>
+                <span style="font-size: 13px; color: var(--text-secondary); margin-left: 2px;">/ {{ week_data.total_sessions }}</span>
+            </div>
+        </div>
+
+        <div class="kalo-square-content">
+            <span style="font-size: 12px; color: {% if week_data.pending_sessions > 0 %}var(--kalo-orange){% else %}var(--kalo-lime){% endif %}; font-weight: 600;">
+                {% if week_data.pending_sessions > 0 %}{{ week_data.pending_sessions }} pendentes{% else %}100% feito!{% endif %}
+            </span>
+            
+            <div class="kalo-streak-circle-gauge" style="width: 50px; height: 50px;">
+                <svg viewBox="0 0 36 36">
+                    <path
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        stroke="#222720"
+                        stroke-width="3.5"
+                    />
+                    <path
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        stroke="{% if week_data.completed_sessions > 0 %}#d2f864{% else %}#f59e0b{% endif %}"
+                        stroke-width="3.5"
+                        stroke-dasharray="{% if week_data.completed_sessions == 3 %}100{% elif week_data.completed_sessions == 2 %}66{% elif week_data.completed_sessions == 1 %}33{% else %}10{% endif %}, 100"
+                        stroke-linecap="round"
+                    />
+                </svg>
+                <span class="kalo-streak-flame-icon" style="font-size: 18px;">
+                    {% if week_data.completed_sessions == 3 %}✓{% else %}🏋️{% endif %}
+                </span>
+            </div>
+        </div>
     </div>
 
-    <div class="kpi-card">
-        <span class="kpi-label">Sessões Pendentes</span>
-        <span class="kpi-value" style="color: {% if week_data.pending_sessions > 0 %}#f59e0b{% else %}#94a3b8{% endif %};">
-            {{ week_data.pending_sessions }}
-        </span>
-        <span class="kpi-subtext">A realizar na semana</span>
-    </div>
+    <!-- Quadrado 2: Exercícios Feitos vs Faltantes -->
+    <div class="kalo-square-card">
+        <div>
+            <span class="kalo-card-label">Exercícios</span>
+            <div style="margin-top: 6px;">
+                <span style="font-size: 28px; font-weight: 700; color: #fff; line-height: 1;">{{ week_data.completed_exercises }}</span>
+                <span style="font-size: 13px; color: var(--text-secondary); margin-left: 2px;">/ {{ week_data.total_exercises }}</span>
+            </div>
+        </div>
 
-    <div class="kpi-card">
-        <span class="kpi-label">Exercícios Realizados</span>
-        <span class="kpi-value" style="color: #38bdf8;">{{ week_data.completed_exercises }}</span>
-        <span class="kpi-subtext">de {{ week_data.total_exercises }} totais</span>
-    </div>
-
-    <div class="kpi-card">
-        <span class="kpi-label">Exercícios Faltantes</span>
-        <span class="kpi-value" style="color: {% if week_data.missing_exercises > 0 %}#f87171{% else %}#34d399{% endif %};">
-            {{ week_data.missing_exercises }}
-        </span>
-        <span class="kpi-subtext">Para fechar 100%</span>
+        <div>
+            <div class="kalo-bar-track" style="margin: 8px 0 6px 0;">
+                <div class="kalo-bar-fill" style="width: {{ week_data.progress_rate }}%;"></div>
+            </div>
+            <span class="kalo-status-tag" style="font-size: 11px;">
+                {{ week_data.missing_exercises }} restantes para 100%
+            </span>
+        </div>
     </div>
 </div>
 
-<!-- Grupos Musculares Previstos -->
-<div class="card">
-    <div class="section-title">
-        <span>🎯 Grupos Musculares Estimulados na Semana</span>
+<!-- Card 3: Grupos Musculares Estimulados na Semana -->
+<div class="kalo-card" style="padding: 16px 18px; margin-bottom: 18px;">
+    <div class="kalo-card-header" style="margin-bottom: 10px;">
+        <span class="kalo-card-label" style="display: flex; align-items: center; gap: 6px; font-weight: 700; color: #ffffff;">
+            <span>🎯</span>
+            <span>Grupos Musculares Estimulados</span>
+        </span>
+        <span style="font-size: 11px; color: var(--kalo-lime); font-weight: 600;">
+            {{ week_data.planned_muscles|length }} grupos no ciclo
+        </span>
     </div>
-    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+
+    <div style="display: flex; flex-wrap: wrap; gap: 6px;">
         {% for muscle in week_data.planned_muscles %}
-            <span class="tag" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; font-size: 12px; padding: 4px 10px;">
-                {{ muscle }}
+            <span class="tag" style="background: #1c221c; border: 1px solid rgba(210, 248, 100, 0.22); color: var(--kalo-lime); font-size: 12px; padding: 5px 12px; border-radius: var(--radius-full); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                <span>•</span>
+                <span>{{ muscle }}</span>
             </span>
         {% endfor %}
     </div>
 </div>
 
-<!-- Lista das 3 Sessões Semanais (Segunda, Quarta e Sexta) -->
-<h2 class="section-title" style="margin-top: 20px;">Sessões da Semana</h2>
-{% for workout in week_data.workouts %}
-    <div class="card" style="border-left: 4px solid {% if workout.status == 'CONCLUIDO' %}var(--kalo-lime){% elif workout.status == 'PENDENTE' %}var(--kalo-orange){% else %}var(--danger){% endif %}; padding: 16px;">
-        <!-- Linha Superior: Badge do Treino na Esquerda e Status 'Pendente' fixo na Direita -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <span class="session-badge code-{{ workout.session_code }}">
-                {{ workout.scheduled_date|date:"l" }} • Treino {{ workout.session_code }}
-            </span>
-            <span class="tag" style="font-weight: 700; font-size: 11.5px; padding: 4px 10px; border-radius: var(--radius-full); {% if workout.status == 'CONCLUIDO' %}background: rgba(210, 248, 100, 0.15); color: var(--kalo-lime); border: 1px solid rgba(210, 248, 100, 0.3);{% elif workout.status == 'PENDENTE' %}background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);{% else %}background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3);{% endif %}">
-                {% if workout.status == 'CONCLUIDO' %}✓ Concluído{% else %}{{ workout.get_status_display }}{% endif %}
-            </span>
-        </div>
+<!-- Seção: Sessões da Semana (Treinos A, B e C) -->
+<h2 class="kalo-section-header" style="margin-top: 22px; margin-bottom: 12px;">Sessões da Semana</h2>
 
-        <!-- Título do Treino -->
-        <h3 style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; line-height: 1.35;">
-            {{ workout.title }}
-        </h3>
-
-        <!-- Linha Inferior: Data/Progresso na Esquerda e Botão de Ação na Direita -->
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
-            <span style="font-size: 12px; color: var(--text-secondary);">
-                {{ workout.scheduled_date|date:"d/m/Y" }} • {{ workout.completed_exercises }}/{{ workout.total_exercises }} exercícios concluídos
-            </span>
-            
-            <a href="{% url 'progress:workout_session' workout.pk %}" class="btn btn-secondary" style="padding: 6px 14px; min-height: 34px; font-size: 12.5px; border-radius: var(--radius-full); margin-left: auto;">
-                Ver Checklist →
-            </a>
-        </div>
-
-        {% if workout.reorganization_note %}
-            <div style="margin-top: 10px; font-size: 12px; color: #fde68a; background: rgba(245, 158, 11, 0.1); padding: 8px; border-radius: var(--radius-sm);">
-                ℹ️ {{ workout.reorganization_note }}
+<div style="display: flex; flex-direction: column; gap: 12px;">
+    {% for workout in week_data.workouts %}
+        <div class="kalo-card" style="border-left: 4px solid {% if workout.status == 'CONCLUIDO' %}var(--kalo-lime){% elif workout.status == 'PENDENTE' %}var(--kalo-orange){% else %}var(--danger){% endif %}; margin-bottom: 0; padding: 18px;">
+            <!-- Linha Superior: Badge do Treino na Esquerda e Status 'Pendente' fixo na Direita -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="session-badge code-{{ workout.session_code }}">
+                    {{ workout.scheduled_date|date:"l" }} • Treino {{ workout.session_code }}
+                </span>
+                
+                <span class="tag" style="font-weight: 700; font-size: 11.5px; padding: 4px 12px; border-radius: var(--radius-full); {% if workout.status == 'CONCLUIDO' %}background: rgba(210, 248, 100, 0.15); color: var(--kalo-lime); border: 1px solid rgba(210, 248, 100, 0.3);{% elif workout.status == 'PENDENTE' %}background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);{% else %}background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3);{% endif %}">
+                    {% if workout.status == 'CONCLUIDO' %}✓ Concluído{% else %}{{ workout.get_status_display }}{% endif %}
+                </span>
             </div>
-        {% endif %}
-    </div>
-{% empty %}
-    <div class="card" style="text-align: center; color: var(--text-muted);">
-        Nenhuma sessão agendada para este intervalo.
-    </div>
-{% endfor %}
+
+            <!-- Título do Treino -->
+            <h3 style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px; line-height: 1.35;">
+                {{ workout.title }}
+            </h3>
+
+            <!-- Linha Inferior: Data/Progresso e Botão de Ação -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                <span style="font-size: 12px; color: var(--text-secondary);">
+                    {{ workout.scheduled_date|date:"d/m/Y" }} • {{ workout.completed_exercises }}/{{ workout.total_exercises }} exercícios concluídos
+                </span>
+                
+                <a href="{% url 'progress:workout_session' workout.pk %}" class="kalo-btn-primary" style="padding: 8px 18px; min-height: 36px; font-size: 12.5px; width: auto; margin-top: 0;">
+                    Ver Checklist →
+                </a>
+            </div>
+
+            {% if workout.reorganization_note %}
+                <div style="margin-top: 12px; font-size: 12px; color: #fde68a; background: rgba(245, 158, 11, 0.1); padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid rgba(245, 158, 11, 0.2);">
+                    ℹ️ {{ workout.reorganization_note }}
+                </div>
+            {% endif %}
+        </div>
+    {% empty %}
+        <div class="kalo-card" style="text-align: center; color: var(--text-muted); padding: 24px;">
+            Nenhuma sessão agendada para este intervalo.
+        </div>
+    {% endfor %}
+</div>
 
 <!-- Gerenciamento Inteligente de Pendências -->
-<div class="card" style="margin-top: 24px; border: 1px dashed #334155; background: #0f172a;">
-    <h3 style="font-size: 15px; font-weight: 700; color: #f8fafc; margin-bottom: 6px;">
+<div class="kalo-card" style="margin-top: 24px; border: 1px dashed rgba(210, 248, 100, 0.25); background: #111511;">
+    <h3 style="font-size: 15px; font-weight: 700; color: #ffffff; margin-bottom: 6px;">
         ⚙️ Gerenciamento Inteligente de Pendências
     </h3>
-    <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5;">
-        Perdeu uma sessão anterior? O sistema avalia os grupos musculares e reorganiza o fluxo para preservar a recuperação sem empilhar volume de forma perigosa.
+    <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5;">
+        Perdeu uma sessão anterior? O sistema reorganiza automaticamente o fluxo nos dias programados (Seg/Qua/Sex), preservando o descanso muscular e evitando acúmulo prejudicial de volume.
     </p>
     <form method="post" action="{% url 'planning:reorganize_backlog' %}">
         {% csrf_token %}
-        <button type="submit" class="btn btn-secondary" style="font-size: 13px;">
-            Reorganizar Pendências da Semana com Segurança
+        <button type="submit" class="btn btn-secondary" style="font-size: 12.5px; border-color: rgba(210, 248, 100, 0.3); color: var(--kalo-lime);">
+            Reorganizar Pendências com Segurança
         </button>
     </form>
 </div>
 {% endblock %}
-

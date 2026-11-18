@@ -26,19 +26,19 @@
 
 <div style="display: flex; flex-direction: column; gap: 14px;">
     {% for phase in phases %}
-        <div class="card" style="border-left: 4px solid {% if phase.is_current %}#38bdf8{% elif phase.is_completed %}#10b981{% else %}#475569{% endif %};">
+        <div class="card" style="border-left: 4px solid {% if phase.is_current %}var(--kalo-lime){% elif phase.is_completed %}rgba(210, 248, 100, 0.4){% else %}rgba(255, 255, 255, 0.1){% endif %};">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
                 <div>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span class="tag" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-weight: 800;">
+                        <span class="tag" style="background: rgba(210, 248, 100, 0.15); color: var(--kalo-lime); font-weight: 800;">
                             FASE {{ phase.phase_number }}
                         </span>
                         {% if phase.is_current %}
-                            <span class="tag" style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 800;">
+                            <span class="tag" style="background: var(--kalo-lime); color: var(--kalo-lime-dark); font-weight: 800;">
                                 ● FASE ATIVA ATUAL
                             </span>
                         {% elif phase.is_completed %}
-                            <span class="tag" style="background: rgba(100, 116, 139, 0.2); color: #94a3b8;">
+                            <span class="tag" style="background: rgba(255, 255, 255, 0.06); color: var(--text-secondary);">
                                 ✓ Concluída
                             </span>
                         {% endif %}
